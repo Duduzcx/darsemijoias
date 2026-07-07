@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X, MessageCircle } from 'lucide-react'
+import { Menu, X, MessageCircle, Lock } from 'lucide-react'
 import { SITE, linkWhatsApp } from '../config/site'
 import { CATEGORIAS } from '../data/types'
 
@@ -114,6 +114,13 @@ export function Sidebar() {
             <MessageCircle size={15} />
             Fale conosco
           </a>
+          <Link
+            to="/admin"
+            className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-grafite-claro transition-colors hover:text-grafite"
+          >
+            <Lock size={12} />
+            Área restrita
+          </Link>
         </div>
       </aside>
 
@@ -166,6 +173,14 @@ export function Sidebar() {
                   <MessageCircle size={15} />
                   Fale conosco
                 </a>
+                <Link
+                  to="/admin"
+                  onClick={() => setAberto(false)}
+                  className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-grafite-claro"
+                >
+                  <Lock size={12} />
+                  Área restrita
+                </Link>
               </div>
             </motion.div>
           </>
