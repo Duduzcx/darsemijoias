@@ -1,34 +1,96 @@
-import { motion } from 'framer-motion'
+import { useEffect, useMemo, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useLoja } from '../store/LojaContext'
 import { getDestaques } from '../data/produtos'
 import { formatarPreco } from '../lib/format'
 import { SITE } from '../config/site'
 
+const INTERVALO_MS = 4000
+
 export function Hero() {
   const { produtos } = useLoja()
-  const destaques = getDestaques(produtos)
-  const capa = destaques[0]
+  const [indice, setIndice] = useState(0)
+  const [pausado, setPausado] = useState(false)
+
+  // Peças que giram na capa: os destaques e, se houver poucos, completa com o restante do catálogo.
+  const vitrineCapa = useMemo(() => {
+    const destaques = getDestaques(produtos)
+    if (destaques.length >= 4) return destaques
+    const extras = produtos.filter((p) => !destaques.includes(p)).slice(0, 6 - destaques.length)
+    return [...destaques, ...extras]
+  }, [produtos])
+
+  const capa = vitrineCapa[indice % vitrineCapa.length]
+
+  useEffect(() => {
+    if (pausado || vitrineCapa.length <= 1) return
+    const timer = setInterval(() => {
+      setIndice((i) => (i + 1) % vitrineCapa.length)
+    }, INTERVALO_MS)
+    return () => clearInterval(timer)
+  }, [pausado, vitrineCapa.length])
 
   return (
     <section className="border-b border-linha">
       <div className="grid md:grid-cols-2">
-        {/* Imagem de capa — a peça de destaque é o próprio herói da página */}
-        <Link to={capa ? `/produto/${capa.id}` : '/'} className="group relative block aspect-[4/5] overflow-hidden bg-neve md:aspect-auto">
-          {capa && (
-            <>
-              <img
-                src={capa.imagens[0]}
-                alt={capa.nome}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute bottom-0 left-0 bg-branco px-4 py-3">
-                <p className="text-sm text-tinta">{capa.nome}</p>
-                <p className="mt-0.5 text-xs text-camel">{formatarPreco(capa.preco)}</p>
-              </div>
-            </>
+        {/* Vitrine de capa — troca de peça automaticamente, como uma vitrine giratória */}
+        <div
+          className="relative aspect-[4/5] overflow-hidden bg-neve md:aspect-auto"
+          onMouseEnter={() => setPausado(true)}
+          onMouseLeave={() => setPausado(false)}
+        >
+          <AnimatePresence mode="wait">
+            {capa && (
+              <motion.div
+                key={capa.id}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="absolute inset-0"
+              >
+                <Link to={`/produto/${capa.id}`} className="group block h-full w-full">
+                  <img
+                    src={capa.imagens[0]}
+                    alt={capa.nome}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, duration: 0.4 }}
+                    className="absolute bottom-0 left-0 bg-branco px-4 py-3"
+                  >
+                    <p className="text-sm text-tinta">{capa.nome}</p>
+                    <p className="mt-0.5 text-xs text-camel">{formatarPreco(capa.preco)}</p>
+                  </motion.div>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {vitrineCapa.length > 1 && (
+            <div className="absolute right-4 top-4 flex gap-1.5">
+              {vitrineCapa.map((p, i) => (
+                <button
+                  key={p.id}
+                  aria-label={`Ver ${p.nome}`}
+                  onClick={() => setIndice(i)}
+                  className="relative h-1 w-5 overflow-hidden bg-branco/50"
+                >
+                  {i === indice && (
+                    <motion.span
+                      layoutId="hero-progresso"
+                      className="absolute inset-0 bg-branco"
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
           )}
-        </Link>
+        </div>
 
         <div className="flex flex-col justify-center px-6 py-14 md:px-14">
           <motion.p
