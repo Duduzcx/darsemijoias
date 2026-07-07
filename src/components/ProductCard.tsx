@@ -4,16 +4,18 @@ import type { Produto } from '../data/types'
 import { formatarPreco } from '../lib/format'
 import { linkWhatsApp } from '../config/site'
 
-export function ProductCard({ produto }: { produto: Produto }) {
+export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: number }) {
   const mensagem = `Olá! Tenho interesse na peça "${produto.nome}" (${formatarPreco(produto.preco)}) que vi no site.`
   const imagemHover = produto.imagens[1] ?? produto.imagens[0]
 
   return (
     <motion.div
+      layout
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.45, delay: (index % 8) * 0.04 }}
       className="group relative"
     >
       <Link to={`/produto/${produto.id}`} className="block">

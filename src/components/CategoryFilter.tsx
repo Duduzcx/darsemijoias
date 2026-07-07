@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { CATEGORIAS, type Categoria } from '../data/types'
 
 type FiltroValor = 'todos' | Categoria
@@ -20,13 +21,18 @@ export function CategoryFilter({
         <button
           key={o.valor}
           onClick={() => onChange(o.valor)}
-          className={`border-b pb-1 text-xs uppercase tracking-wider transition-colors ${
-            ativo === o.valor
-              ? 'border-tinta text-tinta'
-              : 'border-transparent text-grafite hover:text-tinta'
+          className={`relative pb-1 text-xs uppercase tracking-wider transition-colors ${
+            ativo === o.valor ? 'text-tinta' : 'text-grafite hover:text-tinta'
           }`}
         >
           {o.label}
+          {ativo === o.valor && (
+            <motion.span
+              layoutId="filtro-ativo"
+              className="absolute -bottom-px left-0 h-px w-full bg-tinta"
+              transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+            />
+          )}
         </button>
       ))}
     </div>

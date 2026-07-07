@@ -15,7 +15,9 @@ Paleta branca/editorial (fundo branco, tinta quase-preta, acento camel discreto)
 
 ## O que já funciona
 
-- **Menu** com "Início" + categorias em texto simples, responsivo (drawer no mobile).
+- **Menu lateral fixo** (desktop) com "Início" + categorias, WhatsApp e Instagram; vira um drawer animado no mobile.
+- **~100 produtos** de exemplo (20 por categoria), cada um com nome, descrição, preço, detalhes e 3 imagens.
+- **Animações**: transição entre páginas, entrada escalonada dos cards no grid, indicador animado no filtro de categoria, drawer do menu mobile deslizando.
 - **Hero** com a peça de destaque como imagem de capa + CTA "Ver coleção completa".
 - **Vitrine** (Home) com filtro por categoria em abas de texto.
 - **Página de categoria** (/categoria/aneis, /categoria/oculos, etc).
