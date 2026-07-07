@@ -15,15 +15,15 @@ export function CategoryFilter({
   ]
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-x-6 gap-y-2">
       {opcoes.map((o) => (
         <button
           key={o.valor}
           onClick={() => onChange(o.valor)}
-          className={`rounded-full border px-4 py-2 text-xs uppercase tracking-wider transition-colors ${
+          className={`border-b pb-1 text-xs uppercase tracking-wider transition-colors ${
             ativo === o.valor
-              ? 'border-ouro bg-ouro text-obsidian'
-              : 'border-veludo-2 text-fumo hover:border-ouro/50 hover:text-perola'
+              ? 'border-tinta text-tinta'
+              : 'border-transparent text-grafite hover:text-tinta'
           }`}
         >
           {o.label}

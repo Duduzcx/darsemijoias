@@ -6,66 +6,67 @@ import { SITE } from '../config/site'
 
 export function Hero() {
   const destaques = getDestaques()
+  const capa = destaques[0]
 
   return (
-    <section className="relative overflow-hidden border-b border-veludo-2">
-      <div className="mx-auto max-w-7xl px-5 pb-10 pt-14 md:px-8 md:pt-20">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-xs uppercase tracking-[0.3em] text-ouro"
-        >
-          Coleção atual
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-3 max-w-2xl font-display text-4xl leading-tight text-perola md:text-6xl"
-        >
-          {SITE.tagline}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-4 max-w-md text-sm text-fumo"
-        >
-          Joias e óculos selecionados peça a peça. Escolha na vitrine e finalize sua compra direto no WhatsApp.
-        </motion.p>
-      </div>
+    <section className="border-b border-linha">
+      <div className="grid md:grid-cols-2">
+        {/* Imagem de capa — a peça de destaque é o próprio herói da página */}
+        <Link to={capa ? `/produto/${capa.id}` : '/'} className="group relative block aspect-[4/5] overflow-hidden bg-neve md:aspect-auto">
+          {capa && (
+            <>
+              <img
+                src={capa.imagens[0]}
+                alt={capa.nome}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute bottom-0 left-0 bg-branco px-4 py-3">
+                <p className="text-sm text-tinta">{capa.nome}</p>
+                <p className="mt-0.5 text-xs text-camel">{formatarPreco(capa.preco)}</p>
+              </div>
+            </>
+          )}
+        </Link>
 
-      <div className="scrollbar-hide flex gap-4 overflow-x-auto px-5 pb-8 md:px-8">
-        {destaques.map((p, i) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 * i }}
+        <div className="flex flex-col justify-center px-6 py-14 md:px-14">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-xs uppercase tracking-[0.3em] text-camel"
           >
-            <Link
-              to={`/produto/${p.id}`}
-              className="group relative flex w-[220px] shrink-0 flex-col overflow-hidden rounded-sm border border-veludo-2 bg-veludo md:w-[260px]"
+            Coleção atual
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-3 max-w-md font-display text-4xl leading-[1.1] text-tinta md:text-5xl"
+          >
+            {SITE.tagline}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-5 max-w-sm text-sm leading-relaxed text-grafite"
+          >
+            Joias e óculos selecionados peça a peça. Escolha na vitrine e finalize sua compra direto no
+            WhatsApp.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <a
+              href="#vitrine"
+              className="mt-7 inline-block bg-tinta px-7 py-3.5 text-xs uppercase tracking-widest text-branco transition-opacity hover:opacity-80"
             >
-              <div className="relative aspect-square overflow-hidden">
-                <img
-                  src={p.imagens[0]}
-                  alt={p.nome}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
-                  aria-hidden
-                />
-              </div>
-              <div className="p-3">
-                <p className="font-display text-sm text-perola">{p.nome}</p>
-                <p className="mt-1 text-xs text-ouro-claro">{formatarPreco(p.preco)}</p>
-              </div>
-            </Link>
+              Ver coleção completa
+            </a>
           </motion.div>
-        ))}
+        </div>
       </div>
     </section>
   )

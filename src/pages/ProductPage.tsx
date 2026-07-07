@@ -26,16 +26,16 @@ export function ProductPage() {
 
   return (
     <section className="mx-auto max-w-7xl px-5 py-10 md:px-8">
-      <nav className="mb-8 flex items-center gap-1.5 text-xs text-fumo">
-        <Link to="/" className="hover:text-perola">
+      <nav className="mb-8 flex items-center gap-1.5 text-xs text-grafite">
+        <Link to="/" className="hover:text-tinta">
           Início
         </Link>
         <ChevronRight size={12} />
-        <Link to={`/categoria/${produto.categoria}`} className="hover:text-perola">
+        <Link to={`/categoria/${produto.categoria}`} className="hover:text-tinta">
           {CATEGORIAS[produto.categoria]}
         </Link>
         <ChevronRight size={12} />
-        <span className="text-fumo-escuro">{produto.nome}</span>
+        <span className="text-grafite-claro">{produto.nome}</span>
       </nav>
 
       <div className="grid gap-10 md:grid-cols-2 md:gap-16">
@@ -52,26 +52,26 @@ export function ProductPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-ouro">{CATEGORIAS[produto.categoria]}</p>
-          <h1 className="mt-2 font-display text-3xl leading-tight text-perola md:text-4xl">
+          <p className="text-xs uppercase tracking-[0.3em] text-camel">{CATEGORIAS[produto.categoria]}</p>
+          <h1 className="mt-2 font-display text-3xl leading-tight text-tinta md:text-4xl">
             {produto.nome}
           </h1>
 
           <div className="mt-4 flex items-baseline gap-3">
             {produto.precoAntigo && (
-              <span className="text-base text-fumo-escuro line-through">
+              <span className="text-base text-grafite-claro line-through">
                 {formatarPreco(produto.precoAntigo)}
               </span>
             )}
-            <span className="font-display text-2xl text-ouro-claro">{formatarPreco(produto.preco)}</span>
+            <span className="font-display text-2xl text-tinta">{formatarPreco(produto.preco)}</span>
           </div>
 
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-fumo">{produto.descricao}</p>
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-grafite">{produto.descricao}</p>
 
           <ul className="mt-6 flex flex-col gap-2">
             {produto.detalhes.map((d) => (
-              <li key={d} className="flex items-center gap-2 text-sm text-fumo">
-                <Check size={14} className="text-ouro" />
+              <li key={d} className="flex items-center gap-2 text-sm text-grafite">
+                <Check size={14} className="text-camel" />
                 {d}
               </li>
             ))}
@@ -83,17 +83,17 @@ export function ProductPage() {
                 href={linkWhatsApp(mensagem)}
                 target="_blank"
                 rel="noreferrer"
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-ouro py-3.5 text-sm font-semibold uppercase tracking-wider text-obsidian transition-colors hover:bg-ouro-claro sm:w-auto sm:px-10"
+                className="flex w-full items-center justify-center gap-2 bg-tinta py-3.5 text-sm font-semibold uppercase tracking-wider text-branco transition-colors hover:opacity-80 sm:w-auto sm:px-10"
               >
                 <MessageCircle size={18} />
                 Comprar pelo WhatsApp
               </a>
             ) : (
-              <div className="flex w-full items-center justify-center rounded-full border border-veludo-2 py-3.5 text-sm uppercase tracking-wider text-fumo sm:w-auto sm:px-10">
+              <div className="flex w-full items-center justify-center border border-linha py-3.5 text-sm uppercase tracking-wider text-grafite sm:w-auto sm:px-10">
                 Peça esgotada
               </div>
             )}
-            <p className="mt-3 text-xs text-fumo-escuro">
+            <p className="mt-3 text-xs text-grafite-claro">
               Você será direcionado para o WhatsApp com a peça já identificada na mensagem.
             </p>
           </div>

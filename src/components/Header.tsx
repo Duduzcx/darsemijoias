@@ -5,6 +5,7 @@ import { SITE, linkWhatsApp } from '../config/site'
 import { CATEGORIAS } from '../data/types'
 
 const linksNav = [
+  { to: '/', label: 'Início', end: true },
   { to: '/categoria/aneis', label: CATEGORIAS.aneis },
   { to: '/categoria/colares', label: CATEGORIAS.colares },
   { to: '/categoria/brincos', label: CATEGORIAS.brincos },
@@ -24,23 +25,24 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        rolado ? 'bg-obsidian/95 backdrop-blur-sm border-b border-veludo-2' : 'bg-transparent'
+      className={`sticky top-0 z-50 bg-branco transition-shadow duration-300 ${
+        rolado ? 'border-b border-linha' : 'border-b border-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <Link to="/" className="font-display text-2xl tracking-[0.15em] text-perola">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 md:px-8">
+        <Link to="/" className="font-display text-xl tracking-[0.2em] text-tinta">
           {SITE.nome}
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           {linksNav.map((l) => (
             <NavLink
               key={l.to}
               to={l.to}
+              end={l.end}
               className={({ isActive }) =>
-                `font-body text-sm uppercase tracking-wider transition-colors ${
-                  isActive ? 'text-ouro' : 'text-fumo hover:text-perola'
+                `relative py-1 font-body text-[13px] uppercase tracking-wider text-tinta transition-opacity hover:opacity-60 ${
+                  isActive ? 'after:absolute after:-bottom-[2px] after:left-0 after:h-px after:w-full after:bg-tinta' : ''
                 }`
               }
             >
@@ -54,9 +56,9 @@ export function Header() {
             href={linkWhatsApp()}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2 rounded-full border border-ouro/40 px-4 py-2 text-sm text-ouro-claro transition-colors hover:border-ouro hover:bg-ouro/10"
+            className="flex items-center gap-2 text-[13px] uppercase tracking-wider text-tinta transition-opacity hover:opacity-60"
           >
-            <MessageCircle size={16} />
+            <MessageCircle size={15} />
             Fale conosco
           </a>
         </div>
@@ -64,23 +66,24 @@ export function Header() {
         <button
           aria-label={aberto ? 'Fechar menu' : 'Abrir menu'}
           onClick={() => setAberto((v) => !v)}
-          className="text-perola md:hidden"
+          className="text-tinta md:hidden"
         >
-          {aberto ? <X size={26} /> : <Menu size={26} />}
+          {aberto ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {aberto && (
-        <div className="border-t border-veludo-2 bg-obsidian px-5 pb-6 pt-2 md:hidden">
-          <nav className="flex flex-col gap-1">
+        <div className="border-t border-linha bg-branco px-5 pb-6 pt-2 md:hidden">
+          <nav className="flex flex-col">
             {linksNav.map((l) => (
               <NavLink
                 key={l.to}
                 to={l.to}
+                end={l.end}
                 onClick={() => setAberto(false)}
                 className={({ isActive }) =>
-                  `border-b border-veludo-2 py-3 font-body text-sm uppercase tracking-wider ${
-                    isActive ? 'text-ouro' : 'text-fumo'
+                  `border-b border-linha py-3 font-body text-sm uppercase tracking-wider ${
+                    isActive ? 'text-tinta' : 'text-grafite'
                   }`
                 }
               >
@@ -92,7 +95,7 @@ export function Header() {
             href={linkWhatsApp()}
             target="_blank"
             rel="noreferrer"
-            className="mt-4 flex items-center justify-center gap-2 rounded-full bg-ouro px-4 py-3 text-sm font-semibold text-obsidian"
+            className="mt-4 flex items-center justify-center gap-2 bg-tinta px-4 py-3 text-sm font-semibold uppercase tracking-wider text-branco"
           >
             <MessageCircle size={16} />
             Fale conosco no WhatsApp

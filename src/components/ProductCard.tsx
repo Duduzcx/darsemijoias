@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { MessageCircle } from 'lucide-react'
 import type { Produto } from '../data/types'
 import { formatarPreco } from '../lib/format'
 import { linkWhatsApp } from '../config/site'
 
 export function ProductCard({ produto }: { produto: Produto }) {
   const mensagem = `Olá! Tenho interesse na peça "${produto.nome}" (${formatarPreco(produto.preco)}) que vi no site.`
+  const imagemHover = produto.imagens[1] ?? produto.imagens[0]
 
   return (
     <motion.div
@@ -17,44 +17,43 @@ export function ProductCard({ produto }: { produto: Produto }) {
       className="group relative"
     >
       <Link to={`/produto/${produto.id}`} className="block">
-        <div className="relative aspect-square overflow-hidden rounded-sm border border-veludo-2 bg-veludo">
+        <div className="relative aspect-[4/5] overflow-hidden bg-neve">
           <img
             src={produto.imagens[0]}
             alt={produto.nome}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
           />
-
-          {/* Brilho de vidro de vitrine — desliza na diagonal ao passar o mouse */}
-          <div
-            className="pointer-events-none absolute inset-0 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+          <img
+            src={imagemHover}
+            alt=""
             aria-hidden
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
 
           {(produto.novo || produto.precoAntigo) && (
-            <span className="absolute left-3 top-3 rounded-full bg-obsidian/80 px-2.5 py-1 text-[11px] uppercase tracking-wider text-ouro-claro backdrop-blur-sm">
+            <span className="absolute left-3 top-3 bg-branco px-2.5 py-1 text-[10px] uppercase tracking-wider text-tinta">
               {produto.novo ? 'Novo' : 'Oferta'}
             </span>
           )}
 
           {!produto.estoque && (
-            <div className="absolute inset-0 flex items-center justify-center bg-obsidian/70">
-              <span className="text-sm uppercase tracking-widest text-fumo">Esgotado</span>
+            <div className="absolute inset-0 flex items-center justify-center bg-branco/70">
+              <span className="text-xs uppercase tracking-widest text-grafite">Esgotado</span>
             </div>
           )}
         </div>
 
-        <div className="mt-3 flex items-start justify-between gap-2">
-          <div>
-            <h3 className="font-display text-base leading-snug text-perola">{produto.nome}</h3>
-            <div className="mt-1 flex items-baseline gap-2">
-              {produto.precoAntigo && (
-                <span className="text-xs text-fumo-escuro line-through">
-                  {formatarPreco(produto.precoAntigo)}
-                </span>
-              )}
-              <span className="text-sm text-ouro-claro">{formatarPreco(produto.preco)}</span>
-            </div>
+        <div className="mt-3">
+          <h3 className="text-sm leading-snug text-tinta">{produto.nome}</h3>
+          <div className="mt-1 flex items-baseline gap-2">
+            {produto.precoAntigo && (
+              <span className="text-xs text-grafite-claro line-through">
+                {formatarPreco(produto.precoAntigo)}
+              </span>
+            )}
+            <span className="text-sm text-tinta">{formatarPreco(produto.preco)}</span>
           </div>
         </div>
       </Link>
@@ -65,10 +64,9 @@ export function ProductCard({ produto }: { produto: Produto }) {
           target="_blank"
           rel="noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-ouro/30 py-2 text-xs uppercase tracking-wider text-ouro-claro transition-all duration-300 hover:border-ouro hover:bg-ouro/10 md:opacity-0 md:group-hover:opacity-100"
+          className="mt-2 inline-block text-xs uppercase tracking-wider text-camel underline decoration-camel/40 underline-offset-4 transition-colors hover:text-camel-escuro"
         >
-          <MessageCircle size={14} />
-          Comprar
+          Comprar pelo WhatsApp
         </a>
       )}
     </motion.div>

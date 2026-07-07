@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..500&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* Paleta — vitrine de joalheria: veludo escuro + dourado + esmeralda */
-  --color-obsidian: #14110f;
-  --color-veludo: #1e1a16;
-  --color-veludo-2: #29231d;
-  --color-ouro: #c9a15a;
-  --color-ouro-claro: #e4c58a;
-  --color-esmeralda: #2f4a3d;
-  --color-esmeralda-claro: #4a7562;
-  --color-perola: #f2ece1;
-  --color-fumo: #8c8478;
-  --color-fumo-escuro: #5c564c;
+  /* Paleta — vitrine editorial branca, inspirada em grandes varejistas de moda:
+     branco de fundo, tinta quase-preta para texto/CTA, e um camel discreto
+     como acento (herdado da identidade em ouro da marca). */
+  --color-branco: #ffffff;
+  --color-branco-osso: #faf9f7;   /* leve variação para seções alternadas */
+  --color-neve: #f2f0ec;          /* superfície sutil — hover de cards, tags */
+  --color-linha: #e5e2dc;         /* bordas finas */
+  --color-tinta: #17160f;         /* texto principal / CTA primário */
+  --color-grafite: #55524a;       /* texto secundário */
+  --color-grafite-claro: #9b968b; /* texto terciário, preço riscado, esgotado */
+  --color-camel: #a9824c;         /* acento — rótulos, categorias, detalhes */
+  --color-camel-escuro: #8a6a3c;  /* hover do acento */
 
   --font-display: 'Fraunces', serif;
   --font-body: 'Manrope', sans-serif;
@@ -23,33 +24,33 @@ html {
 }
 
 body {
-  background-color: var(--color-obsidian);
-  color: var(--color-perola);
+  background-color: var(--color-branco);
+  color: var(--color-tinta);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background-color: var(--color-ouro);
-  color: var(--color-obsidian);
+  background-color: var(--color-tinta);
+  color: var(--color-branco);
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-obsidian);
+  background: var(--color-branco);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-veludo-2);
+  background: var(--color-linha);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ouro);
+  background: var(--color-grafite-claro);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-ouro);
+  outline: 2px solid var(--color-tinta);
   outline-offset: 3px;
 }
 
