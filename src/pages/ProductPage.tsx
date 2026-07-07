@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
-import { useParams, Navigate, Link } from 'react-router-dom'
+import { useParams, Navigate, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { MessageCircle, ChevronRight, Check } from 'lucide-react'
+import { MessageCircle, ChevronRight, ChevronLeft, Check } from 'lucide-react'
 import { getProdutoPorId, getRelacionados } from '../data/produtos'
+import { useLoja } from '../store/LojaContext'
 import { CATEGORIAS } from '../data/types'
 import { formatarPreco } from '../lib/format'
 import { linkWhatsApp } from '../config/site'
@@ -11,7 +12,9 @@ import { RelatedProducts } from '../components/RelatedProducts'
 
 export function ProductPage() {
   const { id } = useParams<{ id: string }>()
-  const produto = id ? getProdutoPorId(id) : undefined
+  const navigate = useNavigate()
+  const { produtos } = useLoja()
+  const produto = id ? getProdutoPorId(produtos, id) : undefined
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
@@ -21,11 +24,23 @@ export function ProductPage() {
     return <Navigate to="/" replace />
   }
 
-  const relacionados = getRelacionados(produto)
+  const relacionados = getRelacionados(produtos, produto)
   const mensagem = `Olá! Tenho interesse na peça "${produto.nome}" (${formatarPreco(produto.preco)}) que vi no site.`
 
   return (
     <section className="mx-auto max-w-7xl px-5 py-10 md:px-8">
+      <div className="mb-6 flex items-center justify-between">
+        <motion.button
+          onClick={() => navigate(-1)}
+          whileHover={{ x: -3 }}
+          whileTap={{ scale: 0.97 }}
+          className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-grafite transition-colors hover:text-tinta"
+        >
+          <ChevronLeft size={15} />
+          Voltar
+        </motion.button>
+      </div>
+
       <nav className="mb-8 flex items-center gap-1.5 text-xs text-grafite">
         <Link to="/" className="hover:text-tinta">
           Início

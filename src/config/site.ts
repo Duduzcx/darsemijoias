@@ -6,10 +6,12 @@ export const SITE = {
   nomeCompleto: 'Dar Semijoias',
   tagline: 'Peças que contam histórias',
   whatsapp: '5511999999999', // formato: 55 + DDD + número, sem espaços/símbolos
-  instagram: '@aurea.acessorios',
+  instagramUrl: 'https://www.instagram.com/dar.semijoias',
+  instagram: '@dar.semijoias',
   email: 'contato@aurea.com.br',
   endereco: 'Rua Exemplo, 123 — São Paulo, SP',
   horario: 'Seg a Sáb, 10h às 19h',
+  desenvolvidoPor: 'zcxpages',
 } as const
 
 /**

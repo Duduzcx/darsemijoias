@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { MapPin, Clock } from 'lucide-react'
 import { SITE, linkWhatsApp } from '../config/site'
 import { CATEGORIAS } from '../data/types'
@@ -15,13 +16,19 @@ function InstagramIcon() {
 
 export function Footer() {
   return (
-    <footer className="border-t border-linha bg-branco">
+    <motion.footer
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.5 }}
+      className="border-t border-linha bg-branco"
+    >
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 md:px-8">
         <div>
           <p className="font-display text-xl tracking-[0.2em] text-tinta">{SITE.nome}</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-grafite">{SITE.tagline}</p>
           <a
-            href={`https://instagram.com/${SITE.instagram.replace('@', '')}`}
+            href={SITE.instagramUrl}
             target="_blank"
             rel="noreferrer"
             className="mt-4 inline-flex items-center gap-2 text-sm text-grafite transition-colors hover:text-tinta"
@@ -78,8 +85,9 @@ export function Footer() {
       </div>
 
       <div className="border-t border-linha px-5 py-5 text-center text-xs text-grafite-claro md:px-8">
-        © {new Date().getFullYear()} {SITE.nomeCompleto}. Todos os direitos reservados.
+        © {new Date().getFullYear()} {SITE.nomeCompleto}. Todos os direitos reservados. · Desenvolvido por{' '}
+        {SITE.desenvolvidoPor}
       </div>
-    </footer>
+    </motion.footer>
   )
 }

@@ -215,16 +215,22 @@ function gerarProdutos(): Produto[] {
   return produtos
 }
 
+/** Gera o catálogo inicial (seed). Usado pela LojaProvider na primeira carga. */
+export function gerarProdutosIniciais(): Produto[] {
+  return gerarProdutos()
+}
+
+// Mantido por compatibilidade com código que ainda não passou a usar a LojaProvider.
 export const PRODUTOS: Produto[] = gerarProdutos()
 
-export function getProdutoPorId(id: string) {
-  return PRODUTOS.find((p) => p.id === id)
+export function getProdutoPorId(produtos: Produto[], id: string) {
+  return produtos.find((p) => p.id === id)
 }
 
-export function getRelacionados(produto: Produto, limite = 4) {
-  return PRODUTOS.filter((p) => p.categoria === produto.categoria && p.id !== produto.id).slice(0, limite)
+export function getRelacionados(produtos: Produto[], produto: Produto, limite = 4) {
+  return produtos.filter((p) => p.categoria === produto.categoria && p.id !== produto.id).slice(0, limite)
 }
 
-export function getDestaques() {
-  return PRODUTOS.filter((p) => p.destaque)
+export function getDestaques(produtos: Produto[]) {
+  return produtos.filter((p) => p.destaque)
 }

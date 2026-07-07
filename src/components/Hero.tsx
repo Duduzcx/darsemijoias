@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useLoja } from '../store/LojaContext'
 import { getDestaques } from '../data/produtos'
 import { formatarPreco } from '../lib/format'
 import { SITE } from '../config/site'
 
 export function Hero() {
-  const destaques = getDestaques()
+  const { produtos } = useLoja()
+  const destaques = getDestaques(produtos)
   const capa = destaques[0]
 
   return (

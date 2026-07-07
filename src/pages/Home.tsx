@@ -2,15 +2,16 @@ import { useMemo, useState } from 'react'
 import { Hero } from '../components/Hero'
 import { CategoryFilter } from '../components/CategoryFilter'
 import { ProductGrid } from '../components/ProductGrid'
-import { PRODUTOS } from '../data/produtos'
+import { useLoja } from '../store/LojaContext'
 import type { Categoria } from '../data/types'
 
 export function Home() {
+  const { produtos } = useLoja()
   const [filtro, setFiltro] = useState<'todos' | Categoria>('todos')
 
   const produtosFiltrados = useMemo(
-    () => (filtro === 'todos' ? PRODUTOS : PRODUTOS.filter((p) => p.categoria === filtro)),
-    [filtro],
+    () => (filtro === 'todos' ? produtos : produtos.filter((p) => p.categoria === filtro)),
+    [filtro, produtos],
   )
 
   return (

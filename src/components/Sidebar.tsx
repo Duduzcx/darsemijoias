@@ -97,7 +97,7 @@ export function Sidebar() {
 
         <div className="mt-auto flex flex-col gap-3">
           <a
-            href={`https://instagram.com/${SITE.instagram.replace('@', '')}`}
+            href={SITE.instagramUrl}
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 text-xs text-grafite transition-colors hover:text-tinta"
@@ -149,7 +149,7 @@ export function Sidebar() {
 
               <div className="mt-auto flex flex-col gap-3">
                 <a
-                  href={`https://instagram.com/${SITE.instagram.replace('@', '')}`}
+                  href={SITE.instagramUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 text-xs text-grafite"
