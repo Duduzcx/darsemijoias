@@ -8,10 +8,23 @@ import { SITE } from '../config/site'
 
 const INTERVALO_MS = 4000
 
+// Guardado fora do componente (não no useState) para sobreviver a
+// navegações: ao voltar pra Home, o carrossel continua de onde parou
+// em vez de reiniciar no primeiro item.
+let indiceCompartilhado = 0
+
 export function Hero() {
   const { produtos } = useLoja()
-  const [indice, setIndice] = useState(0)
+  const [indice, setIndiceState] = useState(indiceCompartilhado)
   const [pausado, setPausado] = useState(false)
+
+  function setIndice(atualizar: number | ((i: number) => number)) {
+    setIndiceState((atual) => {
+      const proximo = typeof atualizar === 'function' ? atualizar(atual) : atualizar
+      indiceCompartilhado = proximo
+      return proximo
+    })
+  }
 
   // Peças que giram na capa: os destaques e, se houver poucos, completa com o restante do catálogo.
   const vitrineCapa = useMemo(() => {

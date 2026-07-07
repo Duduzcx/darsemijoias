@@ -64,6 +64,8 @@ O que dá pra fazer lá dentro:
 - **Fechamentos**: como a compra acontece pelo WhatsApp (fora do site), não tem como capturar a venda automaticamente. Por isso essa aba existe: depois de fechar uma venda no WhatsApp, registre aqui (produto, quantidade, valor, data).
 - **Relatórios**: gráficos gerados a partir dos fechamentos — quantidade vendida por produto, faturamento por categoria, faturamento por produto, mais vendido, total do período.
 
+**Importante sobre fotos anexadas do computador:** elas ficam salvas como parte dos dados no navegador (junto com o resto do catálogo). O navegador tem um limite de espaço (geralmente uns 5MB no total), então dá pra anexar algumas fotos sem problema, mas catálogo muito grande com muita foto anexada pode estourar esse limite — nesse caso, prefira usar URL de foto (hospedada em algum lugar) em vez de anexar diretamente.
+
 **Importante sobre a persistência:** por enquanto os dados (produtos e fechamentos) ficam salvos no navegador (localStorage), não em um banco de dados. Funciona bem para uso individual, mas não sincroniza entre computadores/celulares diferentes, e limpar os dados do navegador apaga tudo. Quando quiser evoluir para algo multi-dispositivo de verdade, o caminho é migrar para Supabase (mesmo padrão do painel da Neve na Nave) — te aviso quando for a hora.
 
 **Importante sobre segurança:** a senha do admin é checada no próprio navegador, então não é proteção real — é só pra evitar que qualquer visitante mexa no catálogo. Não é o suficiente para dados sensíveis de verdade (isso pediria Supabase Auth).
