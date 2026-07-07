@@ -39,7 +39,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="font-body text-xs uppercase tracking-widest text-camel">Categorias</p>
+          <p className="font-body text-xs uppercase tracking-widest text-malva">Categorias</p>
           <ul className="mt-4 flex flex-col gap-2">
             {Object.entries(CATEGORIAS).map(([slug, nome]) => (
               <li key={slug}>
@@ -55,7 +55,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="font-body text-xs uppercase tracking-widest text-camel">Atendimento</p>
+          <p className="font-body text-xs uppercase tracking-widest text-malva">Atendimento</p>
           <ul className="mt-4 flex flex-col gap-3 text-sm text-grafite">
             <li className="flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 shrink-0" />
@@ -69,7 +69,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="font-body text-xs uppercase tracking-widest text-camel">Compre pelo WhatsApp</p>
+          <p className="font-body text-xs uppercase tracking-widest text-malva">Compre pelo WhatsApp</p>
           <p className="mt-4 text-sm leading-relaxed text-grafite">
             Escolha a peça na vitrine e finalize sua compra diretamente com a gente.
           </p>
@@ -77,7 +77,7 @@ export function Footer() {
             href={linkWhatsApp()}
             target="_blank"
             rel="noreferrer"
-            className="mt-4 inline-block bg-tinta px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-branco transition-opacity hover:opacity-80"
+            className="mt-4 inline-block bg-malva-escuro px-5 py-2.5 text-sm font-semibold uppercase tracking-wider text-branco transition-colors hover:bg-malva-hover"
           >
             Iniciar conversa
           </a>

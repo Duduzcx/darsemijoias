@@ -76,7 +76,7 @@ export function AdminProdutos() {
                 <td className="px-4 py-3">
                   <div className="flex flex-wrap gap-1">
                     {p.destaque && (
-                      <span className="bg-neve px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-camel">
+                      <span className="bg-neve px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-malva">
                         Destaque
                       </span>
                     )}

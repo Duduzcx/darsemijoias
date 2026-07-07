@@ -17,11 +17,11 @@ import { CATEGORIAS } from '../../data/types'
 import { formatarPreco } from '../../lib/format'
 
 const CORES_CATEGORIA: Record<string, string> = {
-  aneis: '#a9824c',
+  aneis: '#b999ae',
   colares: '#17160f',
-  brincos: '#8a6a3c',
+  brincos: '#725e6b',
   pulseiras: '#55524a',
-  oculos: '#9b968b',
+  oculos: '#d9c9d2',
 }
 
 export function AdminRelatorios() {
@@ -126,7 +126,7 @@ export function AdminRelatorios() {
                   paddingAngle={2}
                 >
                   {porCategoria.map((entry) => (
-                    <Cell key={entry.categoria} fill={CORES_CATEGORIA[entry.categoria] ?? '#a9824c'} />
+                    <Cell key={entry.categoria} fill={CORES_CATEGORIA[entry.categoria] ?? '#b999ae'} />
                   ))}
                 </Pie>
                 <Tooltip formatter={((value: unknown) => formatarPreco(Number(value))) as any} />
@@ -148,7 +148,7 @@ export function AdminRelatorios() {
                   formatter={((value: unknown) => formatarPreco(Number(value))) as any}
                   contentStyle={{ border: '1px solid #e5e2dc', fontSize: 12 }}
                 />
-                <Bar dataKey="faturamento" fill="#a9824c" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="faturamento" fill="#b999ae" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

@@ -67,7 +67,7 @@ export function ProductPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-camel">{CATEGORIAS[produto.categoria]}</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-malva">{CATEGORIAS[produto.categoria]}</p>
           <h1 className="mt-2 font-display text-3xl leading-tight text-tinta md:text-4xl">
             {produto.nome}
           </h1>
@@ -86,7 +86,7 @@ export function ProductPage() {
           <ul className="mt-6 flex flex-col gap-2">
             {produto.detalhes.map((d) => (
               <li key={d} className="flex items-center gap-2 text-sm text-grafite">
-                <Check size={14} className="text-camel" />
+                <Check size={14} className="text-malva" />
                 {d}
               </li>
             ))}
@@ -98,7 +98,7 @@ export function ProductPage() {
                 href={linkWhatsApp(mensagem)}
                 target="_blank"
                 rel="noreferrer"
-                className="flex w-full items-center justify-center gap-2 bg-tinta py-3.5 text-sm font-semibold uppercase tracking-wider text-branco transition-colors hover:opacity-80 sm:w-auto sm:px-10"
+                className="flex w-full items-center justify-center gap-2 bg-malva-escuro py-3.5 text-sm font-semibold uppercase tracking-wider text-branco transition-colors hover:bg-malva-hover sm:w-auto sm:px-10"
               >
                 <MessageCircle size={18} />
                 Comprar pelo WhatsApp

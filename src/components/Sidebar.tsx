@@ -109,7 +109,7 @@ export function Sidebar() {
             href={linkWhatsApp()}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-center gap-2 bg-tinta py-3 text-xs uppercase tracking-wider text-branco transition-opacity hover:opacity-80"
+            className="flex items-center justify-center gap-2 bg-malva-escuro py-3 text-xs uppercase tracking-wider text-branco transition-colors hover:bg-malva-hover"
           >
             <MessageCircle size={15} />
             Fale conosco
@@ -168,7 +168,7 @@ export function Sidebar() {
                   href={linkWhatsApp()}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center gap-2 bg-tinta py-3 text-xs uppercase tracking-wider text-branco"
+                  className="flex items-center justify-center gap-2 bg-malva-escuro py-3 text-xs uppercase tracking-wider text-branco"
                 >
                   <MessageCircle size={15} />
                   Fale conosco

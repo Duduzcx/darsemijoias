@@ -2,18 +2,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta — vitrine editorial branca, inspirada em grandes varejistas de moda:
-     branco de fundo, tinta quase-preta para texto/CTA, e um camel discreto
-     como acento (herdado da identidade em ouro da marca). */
+  /* Paleta — vitrine editorial branca com a cor de marca real da cliente:
+     um malva/rosé antigo (#b999ae), usado como acento — textos de destaque,
+     tags, links e botões de ação. Base ainda em branco/tinta para leitura. */
   --color-branco: #ffffff;
   --color-branco-osso: #faf9f7;   /* leve variação para seções alternadas */
   --color-neve: #f2f0ec;          /* superfície sutil — hover de cards, tags */
   --color-linha: #e5e2dc;         /* bordas finas */
-  --color-tinta: #17160f;         /* texto principal / CTA primário */
+  --color-tinta: #17160f;         /* texto principal */
   --color-grafite: #55524a;       /* texto secundário */
   --color-grafite-claro: #9b968b; /* texto terciário, preço riscado, esgotado */
-  --color-camel: #a9824c;         /* acento — rótulos, categorias, detalhes */
-  --color-camel-escuro: #8a6a3c;  /* hover do acento */
+  --color-malva: #b999ae;         /* cor de marca — acento, tags, links */
+  --color-malva-escuro: #725e6b;  /* botões de ação (contraste com texto branco) */
+  --color-malva-hover: #5c4c57;   /* hover dos botões de ação */
 
   --font-display: 'Fraunces', serif;
   --font-body: 'Manrope', sans-serif;

@@ -76,7 +76,7 @@ export function Hero() {
                     className="absolute bottom-0 left-0 bg-branco px-4 py-3"
                   >
                     <p className="text-sm text-tinta">{capa.nome}</p>
-                    <p className="mt-0.5 text-xs text-camel">{formatarPreco(capa.preco)}</p>
+                    <p className="mt-0.5 text-xs text-malva">{formatarPreco(capa.preco)}</p>
                   </motion.div>
                 </Link>
               </motion.div>
@@ -110,7 +110,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-xs uppercase tracking-[0.3em] text-camel"
+            className="text-xs uppercase tracking-[0.3em] text-malva"
           >
             Coleção atual
           </motion.p>
@@ -138,7 +138,7 @@ export function Hero() {
           >
             <a
               href="#vitrine"
-              className="mt-7 inline-block bg-tinta px-7 py-3.5 text-xs uppercase tracking-widest text-branco transition-opacity hover:opacity-80"
+              className="mt-7 inline-block bg-malva-escuro px-7 py-3.5 text-xs uppercase tracking-widest text-branco transition-colors hover:bg-malva-hover"
             >
               Ver coleção completa
             </a>

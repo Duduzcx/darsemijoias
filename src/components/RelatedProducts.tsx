@@ -6,7 +6,7 @@ export function RelatedProducts({ produtos }: { produtos: Produto[] }) {
 
   return (
     <section className="mt-20 border-t border-linha pt-12">
-      <p className="text-xs uppercase tracking-[0.3em] text-camel">Você também pode gostar</p>
+      <p className="text-xs uppercase tracking-[0.3em] text-malva">Você também pode gostar</p>
       <div className="mt-6 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
         {produtos.map((p) => (
           <ProductCard key={p.id} produto={p} />

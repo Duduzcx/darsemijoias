@@ -66,7 +66,7 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
           target="_blank"
           rel="noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="mt-2 inline-block text-xs uppercase tracking-wider text-camel underline decoration-camel/40 underline-offset-4 transition-colors hover:text-camel-escuro"
+          className="mt-2 inline-block text-xs uppercase tracking-wider text-malva underline decoration-malva/40 underline-offset-4 transition-colors hover:text-malva-hover"
         >
           Comprar pelo WhatsApp
         </a>
