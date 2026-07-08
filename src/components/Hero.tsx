@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useLoja } from '../store/LojaContext'
@@ -6,7 +6,7 @@ import { getDestaques } from '../data/produtos'
 import { formatarPreco } from '../lib/format'
 import { SITE } from '../config/site'
 
-const INTERVALO_MS = 4000
+const INTERVALO_MS = 4500
 
 // Guardado fora do componente (não no useState) para sobreviver a
 // navegações: ao voltar pra Home, o carrossel continua de onde parou
@@ -17,6 +17,11 @@ export function Hero() {
   const { produtos } = useLoja()
   const [indice, setIndiceState] = useState(indiceCompartilhado)
   const [pausado, setPausado] = useState(false)
+  const [progresso, setProgresso] = useState(0) // 0–100, progresso do item atual
+
+  const inicioRef = useRef(Date.now())
+  const decorridoRef = useRef(0) // ms já percorridos no item atual (usado ao pausar/retomar)
+  const ultimoIndiceRef = useRef(indice)
 
   function setIndice(atualizar: number | ((i: number) => number)) {
     setIndiceState((atual) => {
@@ -37,12 +42,30 @@ export function Hero() {
   const capa = vitrineCapa[indice % vitrineCapa.length]
 
   useEffect(() => {
+    // Trocou de item (automático ou clique manual) — zera o progresso do novo item.
+    if (indice !== ultimoIndiceRef.current) {
+      ultimoIndiceRef.current = indice
+      decorridoRef.current = 0
+      setProgresso(0)
+    }
+
     if (pausado || vitrineCapa.length <= 1) return
-    const timer = setInterval(() => {
-      setIndice((i) => (i + 1) % vitrineCapa.length)
-    }, INTERVALO_MS)
-    return () => clearInterval(timer)
-  }, [pausado, vitrineCapa.length])
+
+    inicioRef.current = Date.now() - decorridoRef.current
+    const tick = setInterval(() => {
+      const decorrido = Date.now() - inicioRef.current
+      const pct = Math.min(100, (decorrido / INTERVALO_MS) * 100)
+      setProgresso(pct)
+      if (pct >= 100) {
+        setIndice((i) => (i + 1) % vitrineCapa.length)
+      }
+    }, 50)
+
+    return () => {
+      clearInterval(tick)
+      decorridoRef.current = Date.now() - inicioRef.current
+    }
+  }, [pausado, indice, vitrineCapa.length])
 
   return (
     <section className="border-b border-linha">
@@ -69,6 +92,7 @@ export function Hero() {
                     alt={capa.nome}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-tinta/35 via-transparent to-transparent" />
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -84,23 +108,23 @@ export function Hero() {
           </AnimatePresence>
 
           {vitrineCapa.length > 1 && (
-            <div className="absolute right-4 top-4 flex gap-1.5">
-              {vitrineCapa.map((p, i) => (
-                <button
-                  key={p.id}
-                  aria-label={`Ver ${p.nome}`}
-                  onClick={() => setIndice(i)}
-                  className="relative h-1 w-5 overflow-hidden bg-branco/50"
-                >
-                  {i === indice && (
-                    <motion.span
-                      layoutId="hero-progresso"
-                      className="absolute inset-0 bg-branco"
-                      transition={{ duration: 0.3 }}
+            <div className="absolute inset-x-4 top-4 flex gap-1.5">
+              {vitrineCapa.map((p, i) => {
+                const preenchido = i < indice ? 100 : i === indice ? progresso : 0
+                return (
+                  <button
+                    key={p.id}
+                    aria-label={`Ver ${p.nome}`}
+                    onClick={() => setIndice(i)}
+                    className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-branco/35"
+                  >
+                    <span
+                      style={{ width: `${preenchido}%` }}
+                      className="absolute inset-y-0 left-0 rounded-full bg-branco"
                     />
-                  )}
-                </button>
-              ))}
+                  </button>
+                )
+              })}
             </div>
           )}
         </div>

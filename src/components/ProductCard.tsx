@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Produto } from '../data/types'
@@ -7,6 +8,7 @@ import { linkWhatsApp } from '../config/site'
 export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: number }) {
   const mensagem = `Olá! Tenho interesse na peça "${produto.nome}" (${formatarPreco(produto.preco)}) que vi no site.`
   const imagemHover = produto.imagens[1] ?? produto.imagens[0]
+  const [carregada, setCarregada] = useState(false)
 
   return (
     <motion.div
@@ -19,12 +21,18 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
       className="group relative"
     >
       <Link to={`/produto/${produto.id}`} className="block">
-        <div className="relative aspect-[4/5] overflow-hidden bg-neve">
+        <div className="relative aspect-[4/5] overflow-hidden bg-neve shadow-none transition-shadow duration-300 group-hover:shadow-[0_18px_40px_-24px_rgba(23,22,15,0.35)]">
+          {!carregada && (
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-neve via-linha to-neve" />
+          )}
           <img
             src={produto.imagens[0]}
             alt={produto.nome}
             loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+            onLoad={() => setCarregada(true)}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0 ${
+              carregada ? 'opacity-100' : 'opacity-0'
+            }`}
           />
           <img
             src={imagemHover}
@@ -48,7 +56,9 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
         </div>
 
         <div className="mt-3">
-          <h3 className="text-sm leading-snug text-tinta">{produto.nome}</h3>
+          <h3 className="text-sm leading-snug text-tinta transition-colors group-hover:text-malva-hover">
+            {produto.nome}
+          </h3>
           <div className="mt-1 flex items-baseline gap-2">
             {produto.precoAntigo && (
               <span className="text-xs text-grafite-claro line-through">
