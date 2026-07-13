@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { ShoppingBag } from 'lucide-react'
 import type { Produto } from '../data/types'
 import { formatarPreco } from '../lib/format'
 import { linkWhatsApp } from '../config/site'
+import { useCart } from '../store/CartContext'
 
 export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: number }) {
+  const { addItem } = useCart()
   const mensagem = `Olá! Tenho interesse na peça "${produto.nome}" (${formatarPreco(produto.preco)}) que vi no site.`
   const imagemHover = produto.imagens[1] ?? produto.imagens[0]
   const [carregada, setCarregada] = useState(false)
@@ -71,15 +74,28 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
       </Link>
 
       {produto.estoque && (
-        <a
-          href={linkWhatsApp(mensagem)}
-          target="_blank"
-          rel="noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="mt-2 inline-block text-xs uppercase tracking-wider text-malva underline decoration-malva/40 underline-offset-4 transition-colors hover:text-malva-hover"
-        >
-          Comprar pelo WhatsApp
-        </a>
+        <div className="mt-2 flex items-center gap-3">
+          <a
+            href={linkWhatsApp(mensagem)}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="text-xs uppercase tracking-wider text-malva underline decoration-malva/40 underline-offset-4 transition-colors hover:text-malva-hover"
+          >
+            Comprar pelo WhatsApp
+          </a>
+          <button
+            aria-label="Adicionar ao carrinho"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              addItem(produto.id)
+            }}
+            className="text-grafite-claro transition-colors hover:text-tinta"
+          >
+            <ShoppingBag size={15} />
+          </button>
+        </div>
       )}
     </motion.div>
   )

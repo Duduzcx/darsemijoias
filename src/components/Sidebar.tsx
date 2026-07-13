@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X, MessageCircle, Lock } from 'lucide-react'
+import { Menu, X, MessageCircle, Lock, ShoppingBag } from 'lucide-react'
 import { SITE, linkWhatsApp } from '../config/site'
 import { CATEGORIAS } from '../data/types'
+import { useCart } from '../store/CartContext'
+import { CartDrawer } from './CartDrawer'
 
 function InstagramIcon() {
   return (
@@ -63,6 +65,8 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 export function Sidebar() {
   const [aberto, setAberto] = useState(false)
+  const [carrinhoAberto, setCarrinhoAberto] = useState(false)
+  const { totalItens } = useCart()
 
   // trava o scroll do body quando o drawer mobile está aberto
   useEffect(() => {
@@ -79,16 +83,44 @@ export function Sidebar() {
         <Link to="/" className="font-display text-xl tracking-[0.2em] text-tinta">
           {SITE.nome}
         </Link>
-        <button aria-label="Abrir menu" onClick={() => setAberto(true)} className="text-tinta">
-          <Menu size={24} />
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            aria-label="Abrir carrinho"
+            onClick={() => setCarrinhoAberto(true)}
+            className="relative text-tinta"
+          >
+            <ShoppingBag size={22} />
+            {totalItens > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-malva-escuro text-[10px] text-branco">
+                {totalItens}
+              </span>
+            )}
+          </button>
+          <button aria-label="Abrir menu" onClick={() => setAberto(true)} className="text-tinta">
+            <Menu size={24} />
+          </button>
+        </div>
       </header>
 
       {/* Sidebar fixa — desktop */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-linha bg-branco px-7 py-9 md:flex">
-        <Link to="/" className="font-display text-2xl leading-tight tracking-[0.15em] text-tinta">
-          {SITE.nome}
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link to="/" className="font-display text-2xl leading-tight tracking-[0.15em] text-tinta">
+            {SITE.nome}
+          </Link>
+          <button
+            aria-label="Abrir carrinho"
+            onClick={() => setCarrinhoAberto(true)}
+            className="relative text-tinta"
+          >
+            <ShoppingBag size={19} />
+            {totalItens > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-malva-escuro text-[10px] text-branco">
+                {totalItens}
+              </span>
+            )}
+          </button>
+        </div>
         <p className="mt-2 text-xs leading-relaxed text-grafite-claro">{SITE.tagline}</p>
 
         <div className="mt-10">
@@ -186,6 +218,8 @@ export function Sidebar() {
           </>
         )}
       </AnimatePresence>
+
+      <CartDrawer aberto={carrinhoAberto} onClose={() => setCarrinhoAberto(false)} />
     </>
   )
 }

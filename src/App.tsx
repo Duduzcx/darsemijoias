@@ -2,18 +2,25 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy } from 'react'
 import { LojaProvider } from './store/LojaContext'
+import { CartProvider } from './store/CartContext'
 import { Sidebar } from './components/Sidebar'
 import { Footer } from './components/Footer'
 import { WhatsAppFloating } from './components/WhatsAppFloating'
-import { Home } from './pages/Home'
-import { CategoriaPage } from './pages/CategoriaPage'
-import { ProductPage } from './pages/ProductPage'
+
+const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
+const CategoriaPage = lazy(() => import('./pages/CategoriaPage').then((m) => ({ default: m.CategoriaPage })))
+const ProductPage = lazy(() => import('./pages/ProductPage').then((m) => ({ default: m.ProductPage })))
+const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })))
 
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin').then((m) => ({ default: m.AdminLogin })))
 const AdminGate = lazy(() => import('./pages/admin/AdminGate').then((m) => ({ default: m.AdminGate })))
 const AdminDashboard = lazy(() =>
   import('./pages/admin/AdminDashboard').then((m) => ({ default: m.AdminDashboard })),
 )
+
+function PaginaCarregando() {
+  return <div className="p-10 text-sm text-grafite">Carregando...</div>
+}
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   return (
@@ -34,34 +41,44 @@ function SiteApp() {
     <div className="flex min-h-screen flex-col md:pl-60">
       <Sidebar />
       <main className="flex-1">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route
-              path="/"
-              element={
-                <PageTransition>
-                  <Home />
-                </PageTransition>
-              }
-            />
-            <Route
-              path="/categoria/:slug"
-              element={
-                <PageTransition>
-                  <CategoriaPage />
-                </PageTransition>
-              }
-            />
-            <Route
-              path="/produto/:id"
-              element={
-                <PageTransition>
-                  <ProductPage />
-                </PageTransition>
-              }
-            />
-          </Routes>
-        </AnimatePresence>
+        <Suspense fallback={<PaginaCarregando />}>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route
+                path="/"
+                element={
+                  <PageTransition>
+                    <Home />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/categoria/:slug"
+                element={
+                  <PageTransition>
+                    <CategoriaPage />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="/produto/:id"
+                element={
+                  <PageTransition>
+                    <ProductPage />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <PageTransition>
+                    <NotFound />
+                  </PageTransition>
+                }
+              />
+            </Routes>
+          </AnimatePresence>
+        </Suspense>
       </main>
       <Footer />
       <WhatsAppFloating />
@@ -73,27 +90,29 @@ function App() {
   return (
     <BrowserRouter>
       <LojaProvider>
-        <Routes>
-          <Route
-            path="/admin"
-            element={
-              <Suspense fallback={<div className="p-10 text-sm text-grafite">Carregando...</div>}>
-                <AdminLogin />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <Suspense fallback={<div className="p-10 text-sm text-grafite">Carregando...</div>}>
-                <AdminGate>
-                  <AdminDashboard />
-                </AdminGate>
-              </Suspense>
-            }
-          />
-          <Route path="/*" element={<SiteApp />} />
-        </Routes>
+        <CartProvider>
+          <Routes>
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={<PaginaCarregando />}>
+                  <AdminLogin />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <Suspense fallback={<PaginaCarregando />}>
+                  <AdminGate>
+                    <AdminDashboard />
+                  </AdminGate>
+                </Suspense>
+              }
+            />
+            <Route path="/*" element={<SiteApp />} />
+          </Routes>
+        </CartProvider>
       </LojaProvider>
     </BrowserRouter>
   )

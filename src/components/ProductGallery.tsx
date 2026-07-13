@@ -3,15 +3,21 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 export function ProductGallery({ imagens, nome }: { imagens: string[]; nome: string }) {
   const [ativa, setAtiva] = useState(0)
+  const [carregada, setCarregada] = useState(false)
 
   return (
     <div>
       <div className="relative aspect-square overflow-hidden bg-neve">
+        {!carregada && (
+          <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-neve via-linha to-neve" />
+        )}
         <AnimatePresence mode="wait">
           <motion.img
             key={imagens[ativa]}
             src={imagens[ativa]}
             alt={nome}
+            loading="lazy"
+            onLoad={() => setCarregada(true)}
             initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
@@ -26,7 +32,10 @@ export function ProductGallery({ imagens, nome }: { imagens: string[]; nome: str
           {imagens.map((img, i) => (
             <motion.button
               key={img + i}
-              onClick={() => setAtiva(i)}
+              onClick={() => {
+                setCarregada(false)
+                setAtiva(i)
+              }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
               aria-label={`Ver imagem ${i + 1} de ${nome}`}
@@ -34,7 +43,7 @@ export function ProductGallery({ imagens, nome }: { imagens: string[]; nome: str
                 ativa === i ? 'border-tinta' : 'border-linha hover:border-grafite'
               }`}
             >
-              <img src={img} alt="" className="h-full w-full object-cover" />
+              <img src={img} alt="" loading="lazy" className="h-full w-full object-cover" />
             </motion.button>
           ))}
         </div>

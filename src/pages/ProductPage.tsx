@@ -9,16 +9,26 @@ import { formatarPreco } from '../lib/format'
 import { linkWhatsApp } from '../config/site'
 import { ProductGallery } from '../components/ProductGallery'
 import { RelatedProducts } from '../components/RelatedProducts'
+import { ProductReviews } from '../components/ProductReviews'
+import { useDocumentMeta } from '../hooks/useDocumentMeta'
+import { useCart } from '../store/CartContext'
 
 export function ProductPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { produtos } = useLoja()
+  const { addItem } = useCart()
   const produto = id ? getProdutoPorId(produtos, id) : undefined
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [id])
+
+  useDocumentMeta({
+    title: produto ? `${produto.nome} — Dar Semijoias` : 'Dar Semijoias',
+    description: produto?.descricao ?? 'Joias e óculos selecionados peça a peça.',
+    image: produto?.imagens[0],
+  })
 
   if (!produto) {
     return <Navigate to="/" replace />
@@ -94,15 +104,23 @@ export function ProductPage() {
 
           <div className="mt-8">
             {produto.estoque ? (
-              <a
-                href={linkWhatsApp(mensagem)}
-                target="_blank"
-                rel="noreferrer"
-                className="flex w-full items-center justify-center gap-2 bg-malva-escuro py-3.5 text-sm font-semibold uppercase tracking-wider text-branco transition-colors hover:bg-malva-hover sm:w-auto sm:px-10"
-              >
-                <MessageCircle size={18} />
-                Comprar pelo WhatsApp
-              </a>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={linkWhatsApp(mensagem)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex w-full items-center justify-center gap-2 bg-malva-escuro py-3.5 text-sm font-semibold uppercase tracking-wider text-branco transition-colors hover:bg-malva-hover sm:w-auto sm:px-10"
+                >
+                  <MessageCircle size={18} />
+                  Comprar pelo WhatsApp
+                </a>
+                <button
+                  onClick={() => addItem(produto.id)}
+                  className="flex w-full items-center justify-center gap-2 border border-tinta py-3.5 text-sm uppercase tracking-wider text-tinta transition-colors hover:bg-tinta hover:text-branco sm:w-auto sm:px-8"
+                >
+                  Adicionar ao carrinho
+                </button>
+              </div>
             ) : (
               <div className="flex w-full items-center justify-center border border-linha py-3.5 text-sm uppercase tracking-wider text-grafite sm:w-auto sm:px-10">
                 Peça esgotada
@@ -115,6 +133,7 @@ export function ProductPage() {
         </motion.div>
       </div>
 
+      <ProductReviews produtoId={produto.id} />
       <RelatedProducts produtos={relacionados} />
     </section>
   )
