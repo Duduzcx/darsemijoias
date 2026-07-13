@@ -104,26 +104,27 @@ export function Sidebar() {
 
       {/* Sidebar fixa — desktop */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-linha bg-branco px-7 py-9 md:flex">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="font-display text-2xl leading-tight tracking-[0.15em] text-tinta">
-            {SITE.nome}
-          </Link>
-          <button
-            aria-label="Abrir carrinho"
-            onClick={() => setCarrinhoAberto(true)}
-            className="relative text-tinta"
-          >
-            <ShoppingBag size={19} />
+        <Link to="/" className="font-display text-2xl leading-tight tracking-[0.15em] text-tinta">
+          {SITE.nome}
+        </Link>
+        <p className="mt-2 text-xs leading-relaxed text-grafite-claro">{SITE.tagline}</p>
+
+        <button
+          onClick={() => setCarrinhoAberto(true)}
+          className="mt-6 flex items-center gap-2 self-start text-xs uppercase tracking-wider text-grafite transition-colors hover:text-tinta"
+        >
+          <span className="relative text-tinta">
+            <ShoppingBag size={16} />
             {totalItens > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-malva-escuro text-[10px] text-branco">
+              <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-malva-escuro text-[9px] text-branco">
                 {totalItens}
               </span>
             )}
-          </button>
-        </div>
-        <p className="mt-2 text-xs leading-relaxed text-grafite-claro">{SITE.tagline}</p>
+          </span>
+          Carrinho
+        </button>
 
-        <div className="mt-10">
+        <div className="mt-8">
           <NavLinks />
         </div>
 
